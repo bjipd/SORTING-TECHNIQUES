@@ -6,84 +6,128 @@ namespace sorting_issues
 	{
 		static void Main(string[] args)
 		{
-			int[] numbers = { 1, 9, 17, 0, 2, 6, 22, 5, -8, 14 };
-			SelectionSorting(numbers);
-			Console.WriteLine("This is the selection sort: ");
-			Console.WriteLine(string.Join(",", numbers));
+			int[] sortArrayBySelection = { 2, 10, -3, -7, 11, 5, 8, 18, 1, 27, -32, -99};
+			SelectionSortMethod(sortArrayBySelection);
 
-			Console.WriteLine("\nThis is the Merge Sort: ");
-			Console.WriteLine(string.Join(" * ", numbers));
+            int[] sortArrayByMerge = { 12, 1, -3, -17, 6, 15, -8, 18, 10, 37, 20, -99 };
+            MergeSortMethod(sortArrayByMerge);
+
+            int[] sortArrayByInsertion = { 22, 100, -13, -27, 1, 25, -8, -18, -1, 47, 16, -99 };
+            InsertionSortMethod(sortArrayByInsertion);
+
+			Console.WriteLine("This is  for selection sorting with the while loop!");
+			Console.WriteLine(string.Join(" / ", sortArrayBySelection));
+
+			Console.WriteLine("\n");
+
+			Console.WriteLine("This is for Merge sorting with the while loop");
+			Console.WriteLine(string.Join(" + ", sortArrayByMerge));
+
+            Console.WriteLine("\n");
+            Console.WriteLine("This is for Insertion sorting with the while loop");
+            Console.WriteLine(string.Join(" * ", sortArrayByInsertion));
 
             Console.ReadKey();
 		}
 
-		static void SelectionSorting(int[] a)
+		static void SelectionSortMethod(int[] x)
 		{
-			//TO DOS
-			for(int i = 0; i < a.Length - 1; i++)
+			int i = 0;
+			while (i < x.Length - 1)
 			{
-				int minValue = a[i];
+				int minValue = x[i];
 				int minIndex = i;
-				for(int j = i + 1; j < a.Length; j++)
+
+				int j = i + 1;
+				while(j < x.Length)
 				{
-					if (a[j] < minValue)
+					if (x[j] < minValue)
 					{
-						minValue = a[j];
+						minValue = x[j];
 						minIndex = j;
 					}
+					j++;
 				}
-				//Swapping values using tuple
-				(a[i], a[minIndex]) = (a[minIndex], a[i]);
-			}
+				(x[i], x[minIndex]) = (x[minIndex], x[i]);
+                i++;
+            }
+		}
+		
+		static void InsertionSortMethod(int[] y)
+		{
+            // The first element is assumed to be already sorted
+            // We start from the second element and insert it into the sorted part
+            for (int i = 1; i < y.Length; i++)
+			{
+                // j tracks the position of the element as it moves left
+                int j = i ;
+                // Move the element left while it is smaller than the previous one
+                while (j > 0 && y[j] < y[j - 1])
+				{
+					//then swap
+					(y[j], y[j - 1]) = (y[j - 1], y[j]);
 
+                    // Move left to check if it needs to go further
+                    j--;
+				}
+			}
 		}
 
-		
-		static void MergeSorting(int[] heer)
-		{
-			//This is written to stop the recursive method.
-			if (heer.Length <= 1) return;
-			//We use divide and conquer approach in Merge sort
-			int midPoint = heer.Length / 2;
-			int[] ArmyGroupNorth = GetSubArray(heer, 0, midPoint - 1);
-			int[] ArmyGroupSouth = GetSubArray(heer, midPoint, heer.Length - 1);
-			//We recurse to break it further
-			MergeSorting(ArmyGroupNorth);
-			MergeSorting(ArmyGroupSouth);
+		//Please note that the wermacht, AMGN, AMGS, Blitzkreig, heer words
+		//Are just mere data containers for learning and no reference nor interest in
+		//Nazi Germany army of 1930s. this is just for pure learning interest
 
-			//We sort and recall groups back together
-			int x = 0, y = 0, z = 0;
-			while(x < ArmyGroupNorth.Length && y < ArmyGroupSouth.Length)
+		static void MergeSortMethod(int[] heer)
+		{
+			//Create a base case to terminate the recursive method
+			if (heer.Length <= 1) return;
+
+			//Find the midpoint
+			int blitzkreig = heer.Length / 2;
+			//Append midpoint to two aux unitsint
+
+			int[] ArmyGroupNorth = Wehrmachtsgliederung(heer, 0, blitzkreig - 1);
+			int[] ArmyGroupSouth = Wehrmachtsgliederung(heer, blitzkreig, heer.Length - 1);
+
+			//Break the array further
+			MergeSortMethod(ArmyGroupNorth);
+			MergeSortMethod(ArmyGroupSouth);
+
+			//Now time to sort back together
+			//create aux for groups and parentgroup
+			int a = 0, b = 0, c = 0;
+			while(a < ArmyGroupNorth.Length && b < ArmyGroupSouth.Length)
 			{
-				if (ArmyGroupNorth[x] < ArmyGroupSouth[y])
+				if (ArmyGroupNorth[a] < ArmyGroupSouth[b])
 				{
-					heer[z] = ArmyGroupNorth[x++];
+					//Append the smallest into the parentgrouppe
+					heer[c++] = ArmyGroupNorth[a++];
 				}
 				else
 				{
-					heer[z] = ArmyGroupSouth[y++];
+					heer[c++] = ArmyGroupSouth[b++];
 				}
-				z++;
 			}
 
-			while(x < ArmyGroupNorth.Length)
+			while(a < ArmyGroupNorth.Length)
 			{
-				heer[z++] = ArmyGroupNorth[x++];
+				heer[c++] = ArmyGroupNorth[a++];
 			}
-			while(y < ArmyGroupSouth.Length)
+
+			while(b < ArmyGroupSouth.Length)
 			{
-				heer[z++] = ArmyGroupSouth[y++];
+				heer[c++] = ArmyGroupSouth[b++];
 			}
+
         }
 
-		static int[] GetSubArray(int[] AnyOfArmy, int beginIndex, int endIndex) 
+		static int[] Wehrmachtsgliederung(int[] x, int Anfang, int Ende)
 		{
-			int[] result = new int[endIndex - beginIndex + 1];
-			Array.Copy(AnyOfArmy, beginIndex, result, 0, endIndex - beginIndex + 1);
-			return result;
+			int[] resultat = new int[Ende - Anfang + 1];
+			Array.Copy(x, Anfang, resultat, 0, Ende - Anfang + 1);
+			return resultat;
 		}
 
-
-	}
+    }
 }
 
