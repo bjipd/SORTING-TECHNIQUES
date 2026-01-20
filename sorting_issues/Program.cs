@@ -15,6 +15,9 @@ namespace sorting_issues
             int[] sortArrayByInsertion = { 22, 100, -13, -27, 1, 25, -8, -18, -1, 47, 16, -99 };
             InsertionSortMethod(sortArrayByInsertion);
 
+			int[] sortArrayByQuick = { -9, -12, -4, 19, 3, 0, 8, 14, 9, 20 };
+			QuickSort(sortArrayByQuick);
+
 			Console.WriteLine("This is  for selection sorting with the while loop!");
 			Console.WriteLine(string.Join(" / ", sortArrayBySelection));
 
@@ -24,8 +27,12 @@ namespace sorting_issues
 			Console.WriteLine(string.Join(" + ", sortArrayByMerge));
 
             Console.WriteLine("\n");
-            Console.WriteLine("This is for Insertion sorting with the while loop");
+            Console.WriteLine("This is for Insertion sorting with the for and while loop");
             Console.WriteLine(string.Join(" * ", sortArrayByInsertion));
+
+            Console.WriteLine("\n");
+            Console.WriteLine("This is for quick sorting");
+            Console.WriteLine(string.Join(" >> ", sortArrayByInsertion));
 
             Console.ReadKey();
 		}
@@ -73,7 +80,7 @@ namespace sorting_issues
 			}
 		}
 
-		//Please note that the wermacht, AMGN, AMGS, Blitzkreig, heer words
+		//For the next sorting method: Please note that the wermacht, AMGN, AMGS, Blitzkreig, heer words
 		//Are just mere data containers for learning and no reference nor interest in
 		//Nazi Germany army of 1930s. this is just for pure learning interest
 
@@ -113,7 +120,7 @@ namespace sorting_issues
 			{
 				heer[c++] = ArmyGroupNorth[a++];
 			}
-
+			
 			while(b < ArmyGroupSouth.Length)
 			{
 				heer[c++] = ArmyGroupSouth[b++];
@@ -126,6 +133,31 @@ namespace sorting_issues
 			int[] resultat = new int[Ende - Anfang + 1];
 			Array.Copy(x, Anfang, resultat, 0, Ende - Anfang + 1);
 			return resultat;
+		}
+
+		//Quick Sort
+		static void QuickSort (int[] z)
+		{
+			SortPart(z, 0, z.Length - 1);
+		}
+
+		static void SortPart(int[] z, int lowerIndices, int upperIndices)
+		{
+			if (lowerIndices >= upperIndices) return;
+			int pivot = z[upperIndices];
+			int j = lowerIndices - 1;
+			for(int i = lowerIndices; i < upperIndices; i++)
+			{
+				if (z[i] < pivot)
+				{
+					j++;
+					(z[j], z[i]) = (z[i], z[j]);
+				}
+			}
+			int p = j + 1;
+			(z[p], z[upperIndices]) = (z[upperIndices], z[p]);
+			SortPart(z, lowerIndices, p - 1);
+			SortPart(z, p + 1, upperIndices);
 		}
 
     }
