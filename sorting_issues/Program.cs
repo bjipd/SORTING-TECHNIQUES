@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace sorting_issues
 {
@@ -6,13 +7,30 @@ namespace sorting_issues
 	{
 		static void Main(string[] args)
 		{
+			//Creating random numbers for the array
+			Random random = new();
+			int[] arrayTesting = Enumerable.Range(1, 10000).OrderBy(x => random.Next()).ToArray();
 
-            int[] sortArrayByMerge = { 12, 1, -3, -17, 6, 15, -8, 18, 10, 37, 20, -99 };
-            MergeSortMethod(sortArrayByMerge);
+			//Create a clone array and stopwatch to know how long it takes to sort array by MERGE SORTING
+			int[] arrayByMerge = (int[])arrayTesting.Clone();
+			Stopwatch stopwatch = Stopwatch.StartNew();
+            MergeSortMethod(arrayByMerge);
+			stopwatch.Stop();
 
-			Console.WriteLine("This is for Merge sorting with the while loop");
-			Console.WriteLine(string.Join(" + ", sortArrayByMerge));
+			//Announce result
+			Console.WriteLine($"This is the time it takes to sort the array of {arrayByMerge.Count()} elements using Merge sort");
+			Console.WriteLine("Time taken : " + stopwatch.ElapsedMilliseconds + "ms");
 
+
+			//DO THE SAME FOR QUICK SORTING
+			int[] arrayByQuick = (int[])arrayTesting.Clone();
+			stopwatch.Restart();
+			QuickSortMethod(arrayByQuick);
+			stopwatch.Stop();
+
+            //Announce result
+            Console.WriteLine($"This is the time it takes to sort the array of {arrayByQuick.Count()} elements using Quick sort");
+            Console.WriteLine("Time taken : " + stopwatch.ElapsedMilliseconds + "ms");
 
             Console.ReadKey();
 		}
@@ -67,14 +85,53 @@ namespace sorting_issues
 
         }
 
-		static int[] SubArrayMethod(int[] x, int Anfang, int Ende)
+		static int[] SubArrayMethod(int[] x, int begin, int End)
 		{
-			int[] resultat = new int[Ende - Anfang + 1];
-			Array.Copy(x, Anfang, resultat, 0, Ende - Anfang + 1);
+			int[] resultat = new int[End - begin + 1];
+			Array.Copy(x, begin, resultat, 0, End - begin + 1);
 			return resultat;
 		}
-		
 
+		//QUICK SORT METHOD
+
+		static void QuickSortMethod(int[] x)
+		{
+            //Assuming we were given an array of 5 elements  [ 8, 3, 6, 2, 7 ]
+            //QuickSortPart([ 8, 3, 6, 2, 7 ], 0, 5 - 1 = 4);
+            QuickSortPart(x, 0, x.Length - 1);
+		}
+
+		static void QuickSortPart(int[] x, int beginIndex, int EndIndex)
+		{
+			//Base case to stop recursion
+            if (beginIndex >= EndIndex) return;
+
+			//Choose pivot as the last element of the array
+			int pivot = x[EndIndex];
+
+			//The marker or pointer 
+			int j = beginIndex - 1;
+
+			for(int i = beginIndex; i < EndIndex; i++)
+			{
+ 				if (x[i] < pivot)
+				{
+					j++;
+					//do a tuple swap
+					(x[j], x[i]) = (x[i], x[j]);
+				}
+			}
+
+			//Swap Pivot to its correct position
+			int pivotIndex = j + 1;
+			//Swap old pivot value to new pivot Index
+			(x[pivotIndex], x[EndIndex]) = (x[EndIndex], x[pivotIndex]);
+
+            //Now QuickSort recursively sort the left side
+            QuickSortPart(x, beginIndex, pivotIndex - 1);
+            //QuickSort  recursively sort the right side
+            QuickSortPart(x, pivotIndex + 1, EndIndex); 
+		}
     }
 }
 
