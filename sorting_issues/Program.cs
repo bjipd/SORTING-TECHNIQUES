@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace sorting_issues
 {
@@ -7,31 +8,23 @@ namespace sorting_issues
 	{
 		static void Main(string[] args)
 		{
-			//Creating random numbers for the array
-			Random random = new();
-			int[] arrayTesting = Enumerable.Range(1, 10000).OrderBy(x => random.Next()).ToArray();
+            //STARTit
+            //STARTit
+            //STARTit 
+            //Range an array
+            Random randy = new();
+			int[] testingArray = Enumerable.Range(1, 10).OrderBy(p => randy.Next()).ToArray();
+			
+			//We want to clone the testing array
+			int[] arrayForMergeSort = (int[])testingArray.Clone();
 
-			//Create a clone array and stopwatch to know how long it takes to sort array by MERGE SORTING
-			int[] arrayByMerge = (int[])arrayTesting.Clone();
-			Stopwatch stopwatch = Stopwatch.StartNew();
-            MergeSortMethod(arrayByMerge);
+            //Create a stopwatch 
+            Stopwatch stopwatch = Stopwatch.StartNew();
+			MergeSorter(arrayForMergeSort);
 			stopwatch.Stop();
 
-			//Announce result
-			Console.WriteLine($"This is the time it takes to sort the array of {arrayByMerge.Count()} elements using Merge sort");
-			Console.WriteLine("Time taken : " + stopwatch.ElapsedMilliseconds + "ms");
-
-
-			//DO THE SAME FOR QUICK SORTING
-			int[] arrayByQuick = (int[])arrayTesting.Clone();
-			stopwatch.Restart();
-			QuickSortMethod(arrayByQuick);
-			stopwatch.Stop();
-
-            //Announce result
-            Console.WriteLine($"This is the time it takes to sort the array of {arrayByQuick.Count()} elements using Quick sort");
-            Console.WriteLine("Time taken : " + stopwatch.ElapsedMilliseconds + "ms");
-
+			Console.WriteLine($"It took about {stopwatch.ElapsedMilliseconds} ms to sort the array using Merge sort");
+			Console.WriteLine($"The elements length is {arrayForMergeSort.Count()} " );
             Console.ReadKey();
 		}
 
@@ -40,56 +33,60 @@ namespace sorting_issues
 		//1. MERGE SORT
 		//2. QUICK SORT
 		//3. BUBBLE SORT 
-		
-		static void MergeSortMethod(int[] arrayForMergeSort)
+
+		static void MergeSorter(int[] arr)
 		{
-			//Create a base case to terminate the recursive method
-			if (arrayForMergeSort.Length <= 1) return;
+			//The method is a recursive method
+			//Create the base case to stop recursion
+			if (arr.Length == 1) return;
+			//create the midpoint
+			int midpoint = arr.Length / 2;
+			//Name the two sub arrays
+			int[] subArrayOne = GetSubArray(arr, 0, midpoint - 1);
+			int[] subArrayTwo = GetSubArray(arr, midpoint, arr.Length - 1);
+			//call the method to break it further
+			MergeSorter(subArrayOne);
+			MergeSorter(subArrayTwo);
 
-			//Find the midpoint of the parent array
-			int midpoint = arrayForMergeSort.Length / 2;
+			//Merge section
+			//Create aux int to index the append elements from subarray to parrent array
+			int x = 0, y = 0, z = 0;
 
-			//Append midpoint to two aux arrays : using Divide and Conquer
-			int[] arrayGroupA = SubArrayMethod(arrayForMergeSort, 0, midpoint - 1);
-			int[] arrayGroupB = SubArrayMethod(arrayForMergeSort, midpoint, arrayForMergeSort.Length - 1);
-
-			//Break the array further until it is having just 1 element in each array
-			MergeSortMethod(arrayGroupA);
-			MergeSortMethod(arrayGroupB);
-
-			//Now time to append elements back together
-			//create aux int for all arrays and 
-			int a = 0, b = 0, c = 0;
-			while(a < arrayGroupA.Length && b < arrayGroupB.Length)
+			while(x < subArrayOne.Length && y < subArrayTwo.Length)
 			{
-				if (arrayGroupA[a] < arrayGroupB[b])
+				if (subArrayOne[x] < subArrayTwo[y])
 				{
-					//Append the smallest into the parent array
-					arrayForMergeSort[c++] = arrayGroupA[a++];
+					arr[z++] = subArrayOne[x++];
 				}
 				else
 				{
-                    arrayForMergeSort[c++] = arrayGroupB[b++];
-                }
+					arr[z++] = subArrayTwo[y++];
+				}
 			}
 
-			while(a < arrayGroupA.Length)
+			while(x < subArrayOne.Length)
 			{
-                arrayForMergeSort[c++] = arrayGroupA[a++];
-            }
-			
-			while(b < arrayGroupB.Length)
-			{
-                arrayForMergeSort[c++] = arrayGroupB[b++];
+				arr[z++] = subArrayOne[x++];
+			}
+
+            while (y < subArrayTwo.Length)
+            {
+                arr[z++] = subArrayTwo[y++];
             }
 
+			foreach(int p in arr)
+			{
+				Console.WriteLine($"{p} ");
+			}
         }
 
-		static int[] SubArrayMethod(int[] x, int begin, int End)
+		//This method assigns the divided array to each subarray
+		static int[] GetSubArray(int[] ox, int beginIndex, int endIndex)
 		{
-			int[] resultat = new int[End - begin + 1];
-			Array.Copy(x, begin, resultat, 0, End - begin + 1);
-			return resultat;
+			//Create the sub array to present. 
+			int[] resultArray = new int[endIndex - beginIndex + 1];
+			Array.Copy(ox, beginIndex, resultArray, 0, endIndex - beginIndex + 1);
+			return resultArray;
 		}
 
 		//QUICK SORT METHOD
