@@ -1,0 +1,15 @@
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/bin/Debug/net10.0/SortingTechniques
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/bin/Debug/net10.0/SortingTechniques.deps.json
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/bin/Debug/net10.0/SortingTechniques.runtimeconfig.json
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/bin/Debug/net10.0/SortingTechniques.dll
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/bin/Debug/net10.0/SortingTechniques.pdb
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.GeneratedMSBuildEditorConfig.editorconfig
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.AssemblyInfoInputs.cache
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.AssemblyInfo.cs
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.csproj.CoreCompileInputs.cache
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.sourcelink.json
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.dll
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/refint/SortingTechniques.dll
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.pdb
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/SortingTechniques.genruntimeconfig.cache
+/Users/user/SORTING-TECHNIQUES/SortingTechniques/obj/Debug/net10.0/ref/SortingTechniques.dll
