@@ -9,18 +9,19 @@ namespace SortingTechniques
         {
             //Create an array for testing sorting techniques
             Random random = new();
-            int [] testArray = Enumerable.Range(0, 100000).Select(_ => random.Next(0, 10000)).ToArray();
+            int [] testArray = Enumerable.Range(0, 100000).Select(_ => random.Next(1, 100001)).ToArray();
 
             //Create a stopwatch to measure time taken by sorting algorithms
             Stopwatch stopwatch = new ();
+
             //Measure time taken by Merge Sort
             int[] mergeSortArray = (int[])testArray.Clone();
             stopwatch.Start();
             MergeSort(mergeSortArray);
             stopwatch.Stop();
             var mergeSortTime = stopwatch.ElapsedMilliseconds;
+
             System.Console.WriteLine("Sorted Array using Merge Sort: " + string.Join(", ", mergeSortArray));
-            System.Console.WriteLine("Merge Sort Time: " + mergeSortTime + " ms");
 
             //Measure time taken by Quick Sort
             int[] quickSortArray = (int[])testArray.Clone();
@@ -29,15 +30,45 @@ namespace SortingTechniques
             QuickSort(quickSortArray);
             stopwatch.Stop();
             var quickSortTime = stopwatch.ElapsedMilliseconds;
+
             System.Console.WriteLine("Sorted Array using Quick Sort: " + string.Join(", ", quickSortArray));
-            System.Console.WriteLine("Quick Sort Time: " + quickSortTime + " ms");
+
+            //Measure time taken by Bubblesort 
+            int [] bubbleArray = (int[])testArray.Clone();
+            stopwatch.Reset();
+            stopwatch.Start();
+            BubbleSort(bubbleArray);
+            stopwatch.Stop();
+            var bubbleSortTime = stopwatch.ElapsedMilliseconds;
+
+            System.Console.WriteLine("Sorted Array with bubble sort: " + string.Join(',', bubbleArray));
 
             //Final verdict
+            System.Console.WriteLine("Sorting Completed. Bubble Sort took " + bubbleSortTime + " ms." );
             System.Console.WriteLine("Sorting Completed. Merge Sort took " + mergeSortTime + " ms.");
             System.Console.WriteLine("Sorting Completed. Quick Sort took " + quickSortTime + " ms.");
         }
 
-        //Lets start with Merge Sort
+        //Lets start with Bubble sort 
+        static void BubbleSort(int[] x)
+        {
+            //Get the length of the array. 
+            int len = x.Length; 
+            
+            //Loop through the outer 
+            for(int i = 0; i < len - 1; i++)
+            {
+                //Loop through inner array 
+                for(int j = 0; j < len - i - 1; j++)
+                {
+                    if(x[j] > x[j + 1])
+                    {
+                        //We swap 
+                        (x[j], x[j+1]) = (x[j+1], x[j]);
+                    }
+                }
+            }
+        }
         static void MergeSort(int[] array)
         {
             //Base case
